@@ -29,4 +29,4 @@ How to Run the Project
 This is a single-file website, so no special tools are required to run it.
 
 Clone the repository with the following command:
-git clone https://github.com/soroushzi/blockchain-education-hub.git
+git clone https://soroushzi.github.io/blockchain-education-hub/
