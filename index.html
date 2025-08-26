@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soroosh Ziaei - Web3, Blockchain, NFT</title>
+    <title>سروش ضیایی - وب3، بلاکچین، NFT</title>
     <!-- استفاده از CDN Tailwind CSS برای استایل‌دهی مدرن و واکنش‌گرا -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- اضافه کردن فونت‌های مورد نیاز -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- لینک به آیکون‌های Font Awesome برای شبکه‌های اجتماعی -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2g2h4G60T6o4e8/wW9qS/RkH4P7oM1uD65W4+gB2uM8/2d1+7o4/3A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- کتابخانه Chart.js برای نمودارهای تعاملی -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-        /* تنظیم فونت اینتر و برخی استایل‌های اصلی */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        /* تنظیم فونت و استایل‌های اصلی */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Vazirmatn', sans-serif;
             @apply bg-gray-950 text-white leading-relaxed;
         }
 
@@ -23,6 +31,15 @@
         .section-card {
             @apply bg-gray-900 rounded-2xl p-6 md:p-10 shadow-lg border border-gray-800 transition-all duration-300 hover:border-gray-700;
         }
+        
+        /* استایل کارت‌های متاورس و بخش‌های آن */
+        .metaverse-card {
+            @apply bg-gray-800 p-6 rounded-lg border border-gray-700 text-center;
+        }
+        
+        .metaverse-section-card {
+            @apply bg-gray-900 rounded-lg p-6 md:p-10 shadow-lg border border-gray-800;
+        }
 
         /* استایل برای باکس‌های نقشه راه */
         details summary {
@@ -34,12 +51,65 @@
         details summary::-webkit-details-marker {
             display: none;
         }
-
+        
         .lang-button {
             @apply px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200;
         }
         .lang-button.active {
             @apply bg-teal-400 text-gray-900;
+        }
+
+        .social-link {
+            @apply p-3 rounded-full bg-gray-800 text-gray-400 hover:bg-teal-400 hover:text-white transition-colors duration-300;
+        }
+        
+        /* استایل‌های مربوط به اپلیکیشن متاورس */
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #06B6D4;
+            border-bottom-color: #06B6D4;
+        }
+        .tech-layer {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+        }
+        .tech-layer:hover, .tech-layer.active {
+            background-color: #1a1a1a;
+            border-color: #06B6D4;
+        }
+        .btn-filter {
+            transition: all 0.3s ease;
+        }
+        .btn-filter.active {
+            background-color: #06B6D4;
+            color: #0A0A0A;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 450px;
+        }
+        /* Custom scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3D3B38;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06B6D4;
         }
     </style>
 </head>
@@ -48,7 +118,7 @@
     <!-- بخش سربرگ و منوی ناوبری -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-sm shadow-md py-4">
         <nav class="container mx-auto px-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-teal-400 hover:text-teal-300 transition-colors" data-lang-key="name">Soroosh Ziaei</a>
+            <a href="#" class="text-2xl font-bold text-teal-400 hover:text-teal-300 transition-colors" data-lang-key="name">سروش ضیایی</a>
             
             <div class="flex items-center space-x-4 space-x-reverse">
                 <div class="space-x-4 space-x-reverse md:flex hidden">
@@ -108,6 +178,18 @@
                     <p data-lang-key="mission_p2">در جهانی که ساختارهای قدرت بر مبنای تمرکز، فساد و تبعیض شکل گرفته‌اند، تنها یک ابزار می‌تواند مسیر را تغییر دهد: فناوری غیرمتمرکز و مبتنی بر هوش جمعی.</p>
                     <p data-lang-key="mission_p3">من آمده‌ام که عدالت را، نه در شعار، بلکه در کد، رأی، و ساختار اجتماعی محقق کنم.</p>
                 </div>
+            </div>
+        </section>
+        
+        <!-- بخش محتوای جدید -->
+        <section id="interactive-content" class="py-16 md:py-24">
+            <h2 class="text-3xl font-bold mb-6 text-teal-400 text-center" data-lang-key="interactive_title">محتوای تعاملی و آموزشی</h2>
+            <div class="section-card text-center">
+                <h3 class="text-2xl font-semibold text-sky-400 mb-4" data-lang-key="metaverse_app_title">کاوش در دنیای متاورس</h3>
+                <p class="text-gray-400 mb-6" data-lang-key="metaverse_app_desc">یک ابزار آموزشی تعاملی برای درک عمیق‌تر مفاهیم متاورس، از فناوری‌های زیربنایی تا کاربردها و چالش‌ها.</p>
+                <a href="#metaverse-app-section" class="px-6 py-3 bg-teal-400 text-gray-950 font-semibold rounded-full hover:bg-teal-300 transition-colors duration-300 shadow-md" data-lang-key="metaverse_app_link">
+                    شروع به کاوش
+                </a>
             </div>
         </section>
 
@@ -280,14 +362,159 @@
             <h2 class="text-3xl font-bold mb-6 text-teal-400" data-lang-key="contact_title">تماس با من</h2>
             <p class="text-gray-400 mb-8" data-lang-key="contact_desc">خوشحال می‌شوم با هم ارتباط بگیریم و پروژه‌های مشترک بسازیم.</p>
             <div class="flex justify-center space-x-6 space-x-reverse text-gray-400">
-                <!-- آیکون تلگرام -->
-                <a href="#" class="hover:text-teal-400 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-4.706 17.584l-2.288-10.749c-.218-1.026.549-1.574 1.258-1.298l13.593 5.483c.957.387.957 1.267 0 1.654l-3.325 1.455-1.782 5.586c-.218.68-.696.885-1.25.597l-3.159-2.315-1.536 1.488c-.538.519-.94.254-1.085-.398z"/></svg>
-                </a>
                 <!-- آیکون لینکدین -->
-                <a href="#" class="hover:text-teal-400 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.762s.784-1.762 1.75-1.762 1.75.79 1.75 1.762-.783 1.762-1.75 1.762zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                <a href="https://www.linkedin.com/in/sorosh-ziaei-bb01461a0/" target="_blank" class="social-link" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
                 </a>
+                <!-- آیکون X (توئیتر) -->
+                <a href="https://x.com/Sorosh_1368" target="_blank" class="social-link" aria-label="X (Twitter)">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+                <!-- آیکون اینستاگرام -->
+                <a href="https://www.instagram.com/sorosh_ziaei/?hl=en" target="_blank" class="social-link" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <!-- آیکون تلگرام -->
+                <a href="https://t.me/sorosh_ziaei" target="_blank" class="social-link" aria-label="Telegram">
+                    <i class="fab fa-telegram-plane"></i>
+                </a>
+            </div>
+        </section>
+        
+        <!-- این بخش، محتوای اپلیکیشن کاوش در متاورس است که به صورت کامل به سایت اصلی منتقل شده -->
+        <section id="metaverse-app-section" class="py-16 md:py-24">
+            <div class="metaverse-section-card">
+                <header class="py-4">
+                    <h1 class="text-xl font-bold text-[#06B6D4] text-center">کاوش در متاورس</h1>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline justify-center space-x-4 space-x-reverse">
+                            <a href="#what-is" class="nav-link px-3 py-2 rounded-md text-sm font-medium">متاورس چیست؟</a>
+                            <a href="#features" class="nav-link px-3 py-2 rounded-md text-sm font-medium">ویژگی‌ها</a>
+                            <a href="#tech" class="nav-link px-3 py-2 rounded-md text-sm font-medium">فناوری</a>
+                            <a href="#applications" class="nav-link px-3 py-2 rounded-md text-sm font-medium">کاربردها</a>
+                            <a href="#challenges" class="nav-link px-3 py-2 rounded-md text-sm font-medium">چالش‌ها</a>
+                        </div>
+                    </div>
+                </header>
+                
+                <section id="hero-metaverse" class="text-center py-16">
+                    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">به دنیای <span class="text-[#06B6D4]">متاورس</span> خوش آمدید</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+                        متاورس، فراتر از یک مفهوم، یک لایه جدید و تکامل‌یافته از اینترنت است که فضاهای دیجیتال و واقعی را به شکلی بی‌وقفه در هم می‌آمیزد. این اپلیکیشن تعاملی به شما کمک می‌کند تا با ابعاد مختلف این دنیای نوظهور آشنا شوید.
+                    </p>
+                </section>
+
+                <section id="what-is" class="py-16">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-bold">متاورس چیست؟</h3>
+                        <p class="mt-2 text-gray-500">تمایز میان متاورس، واقعیت مجازی (VR) و واقعیت افزوده (AR)</p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="metaverse-card">
+                            <div class="text-4xl mb-4">🌌</div>
+                            <h4 class="text-xl font-bold mb-2">متاورس (Metaverse)</h4>
+                            <p class="text-gray-300">یک فضای مجازی مشترک و پایدار که از ادغام دنیای فیزیکی و دیجیتال به وجود آمده و کاربران می‌توانند در آن با یکدیگر و با اشیاء دیجیتال تعامل کنند. متاورس یک اکوسیستم کامل است.</p>
+                        </div>
+                        <div class="metaverse-card">
+                            <div class="text-4xl mb-4">🕶️</div>
+                            <h4 class="text-xl font-bold mb-2">واقعیت مجازی (VR)</h4>
+                            <p class="text-gray-300">فناوری که کاربر را به طور کامل در یک محیط مجازی غوطه‌ور می‌کند و ارتباط او با دنیای واقعی را قطع می‌کند. VR یکی از راه‌های ورود به متاورس است، اما خود متاورس نیست.</p>
+                        </div>
+                        <div class="metaverse-card">
+                            <div class="text-4xl mb-4">📱</div>
+                            <h4 class="text-xl font-bold mb-2">واقعیت افزوده (AR)</h4>
+                            <p class="text-gray-300">فناوری که عناصر دیجیتال را بر روی دنیای واقعی کاربر اضافه می‌کند و تجربه واقعیت را غنی‌تر می‌سازد، بدون اینکه آن را جایگزین کند. AR پلی میان دنیای واقعی و متاورس است.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="features" class="py-16">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-bold">ویژگی‌های بنیادین یک متاورس واقعی</h3>
+                        <p class="mt-2 text-gray-500">چه چیزی متاورس را از یک بازی آنلاین ساده متمایز می‌کند؟ روی هر کارت کلیک کنید.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="features-grid">
+                    </div>
+                </section>
+
+                <section id="tech" class="py-16">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-bold">معماری فناوری متاورس</h3>
+                        <p class="mt-2 text-gray-500">فناوری‌های کلیدی که این دنیای دیجیتال را ممکن می‌سازند. برای مشاهده جزئیات، روی هر لایه کلیک کنید.</p>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3">
+                            <div id="tech-layers-buttons" class="space-y-4">
+                                <div class="tech-layer p-4 rounded-lg border-2 border-transparent text-right" data-layer="infrastructure">
+                                    <h4 class="font-bold text-lg">لایه زیرساخت 🌐</h4>
+                                    <p class="text-sm">ستون فقرات اتصال و پردازش</p>
+                                </div>
+                                <div class="tech-layer p-4 rounded-lg border-2 border-transparent text-right" data-layer="intelligence">
+                                    <h4 class="font-bold text-lg">لایه هوش و داده 🧠</h4>
+                                    <p class="text-sm">ایجاد یک دنیای پویا و هوشمند</p>
+                                </div>
+                                <div class="tech-layer p-4 rounded-lg border-2 border-transparent text-right" data-layer="economy">
+                                    <h4 class="font-bold text-lg">لایه اقتصادی 💰</h4>
+                                    <p class="text-sm">مالکیت دیجیتال و خلق ارزش</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-2/3 bg-gray-800 p-6 rounded-lg border border-gray-700 min-h-[250px]">
+                            <div id="tech-layer-content">
+                                <p class="text-gray-500">لطفاً برای مشاهده توضیحات، یک لایه را از سمت راست انتخاب کنید.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="applications" class="py-16">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-bold">کاربردها و فرصت‌ها</h3>
+                        <p class="mt-2 text-gray-500">متاورس چگونه صنایع مختلف را دگرگون می‌کند؟</p>
+                    </div>
+                    <div class="flex justify-center flex-wrap gap-3 mb-8" id="app-filters">
+                        <button class="btn-filter px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium" data-app="education">آموزش و یادگیری</button>
+                        <button class="btn-filter px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium" data-app="healthcare">پزشکی و سلامت</button>
+                        <button class="btn-filter px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium" data-app="business">تجارت و کسب‌وکار</button>
+                        <button class="btn-filter px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium" data-app="social">تعاملات اجتماعی</button>
+                    </div>
+                    <div class="grid lg:grid-cols-5 gap-8 items-center">
+                        <div class="lg:col-span-2">
+                            <h4 id="app-title" class="text-2xl font-bold mb-4">آموزش و یادگیری</h4>
+                            <p id="app-description" class="text-gray-300">متاورس می‌تواند محیط‌های آموزشی غوطه‌ور و جذابی ایجاد کند که فراتر از کلاس‌های آنلاین سنتی هستند. شبیه‌سازی‌های آموزشی، به دانش‌آموزان اجازه می‌دهند تا در محیطی امن و بدون ریسک، آزمایش‌های خطرناک انجام داده یا جراحی‌های پیچیده را تمرین کنند.</p>
+                        </div>
+                        <div class="lg:col-span-3">
+                            <div class="chart-container">
+                                <canvas id="applicationsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="challenges" class="py-16">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-bold">چالش‌ها و آینده متاورس</h3>
+                        <p class="mt-2 text-gray-500">موانع حقوقی، امنیتی و اجتماعی در مسیر توسعه متاورس</p>
+                    </div>
+                    <div class="max-w-sm mx-auto mb-8">
+                        <select id="challenge-selector" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-teal-400">
+                            <option value="legal">مسائل حقوقی و حاکمیتی</option>
+                            <option value="security">امنیت و حریم خصوصی</option>
+                            <option value="social">پیامدهای اجتماعی و روانی</option>
+                        </select>
+                    </div>
+                    <div class="grid lg:grid-cols-5 gap-8 items-center">
+                        <div class="lg:col-span-3">
+                            <div class="chart-container">
+                                <canvas id="challengesChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-2">
+                            <h4 id="challenge-title" class="text-2xl font-bold mb-4">مسائل حقوقی و حاکمیتی</h4>
+                            <p id="challenge-description" class="text-gray-300">ماهیت غیرمتمرکز و جهانی متاورس، مناطق خاکستری جدیدی در قوانین ایجاد می‌کند. چالش‌هایی مانند تعیین مالکیت قانونی دارایی‌های مجازی، پیچیدگی هویت‌های دیجیتال و دشواری در اجرای قوانین، نیازمند چارچوب‌های نظارتی جدید و همکاری بین‌المللی است.</p>
+                        </div>
+                    </div>
+                </section>
             </div>
         </section>
 
@@ -298,7 +525,7 @@
         <span data-lang-key="footer_text">© 2024 سروش ضیایی. تمامی حقوق محفوظ است.</span>
     </footer>
 
-    <!-- اسکریپت جاوااسکریپت برای مدیریت چندزبانه بودن سایت -->
+    <!-- اسکریپت جاوااسکریپت برای مدیریت چندزبانه بودن سایت و اپلیکیشن متاورس -->
     <script>
         const translations = {
             fa: {
@@ -311,13 +538,10 @@
                 nav_contact: 'تماس',
                 hero_title: 'سفر در دنیای Web3: فناوری برای عدالت',
                 hero_text: 'من سروش ضیایی هستم. در این مسیر، بلاکچین، NFT و متاورس را نه تنها به‌عنوان ابزاری برای نوآوری، بلکه به‌عنوان بستری برای عدالت و انسانیت بررسی می‌کنیم.',
-                about_title: 'درباره من',
-                about_p1: 'سلام! من سروش ضیایی هستم؛ پژوهشگر و خالق در دنیای بلاکچین، NFT و متاورس. بیش از یک دهه‌ست که مسیرم رو در این فضا دنبال می‌کنم؛ جایی که فناوری، خلاقیت و انسانیت به هم می‌رسن. در این سال‌ها پروژه‌هایی مثل bitcoiner ape و cryptoyland و Telegram Titans رو طراحی و تجربه کردم؛ پروژه‌هایی که هدفشون فقط فروش نبود، بلکه روایت‌سازی، ارزش‌آفرینی و ایجاد جامعه‌ای عادلانه‌تر در Web3 بود. حتی اگر همه‌شون به موفقیت مالی نرسیدن، برای من هر کدوم یک تجربه‌ی ارزشمند در یادگیری، آزمون و خطا و ساختن آینده بودن. علاوه بر این، همیشه به آموزش و انتقال دانش علاقه‌مند بودم. ده‌ها دوره در زمینه بلاکچین، NFT و متاورس برگزار کردم و تلاش کردم نسل جدیدی از کاربران و سازندگان رو به این دنیا معرفی کنم. اما چیزی که من رو متفاوت می‌کنه فقط تخصص فنی نیست؛ من باور دارم که تکنولوژی باید به انسانیت و عدالت اجتماعی خدمت کنه. همین نگاه باعث شد سراغ پژوهش‌های روانشناسی، هنر دیجیتال و پروژه‌هایی برم که پیوند بین فرهنگ و Web3 رو بسازن. امروز اینجا هستم تا هم تجربه‌هام رو با شما به اشتراک بذارم، هم در کنار هم پروژه‌هایی رو بسازیم که فقط نوآورانه نباشن، بلکه معنادار هم باشن.',
-                about_p2: '✨ اگر به دنیای NFT، متاورس و Web3 علاقه‌مند هستی، خوشحال می‌شم همراه هم سفر کنیم؛ چه با یادگیری، چه با ساختن و چه با الهام گرفتن از آینده‌ای که با هم خلق می‌کنیم.',
-                mission_title: 'بیانیه رسالت من: فناوری در خدمت انسانیت',
-                mission_p1: 'من، سروش ضیایی، از دل نابرابری‌ها، تضادها، و تعاملات انسانی، به رسالتی روشن رسیده‌ام: خلق ساختاری برای عدالت، نه از طریق قدرت، بلکه با مشارکت، شفافیت، و تکنولوژی. در مسیر زندگی‌ام با اقشار گوناگون جامعه روبه‌رو بوده‌ام: معتادی که به حاشیه رانده شده، کارگری خسته، کارخانه‌داری در تلاش برای حفظ معیشت دیگران، مسئولان صاحب‌قدرت، ستمدیدگان بی‌صدا، و حتی کسانی که خود در نقش ستم‌گر ظاهر شده‌اند. این برخوردها مرا به درکی عمیق رسانده‌اند: عدالت نظریه نیست — تجربه است. و تجربه، ساختار می‌طلبد.',
-                mission_p2: 'در جهانی که ساختارهای قدرت بر مبنای تمرکز، فساد و تبعیض شکل گرفته‌اند، تنها یک ابزار می‌تواند مسیر را تغییر دهد: فناوری غیرمتمرکز و مبتنی بر هوش جمعی.',
-                mission_p3: 'من آمده‌ام که عدالت را، نه در شعار، بلکه در کد، رأی، و ساختار اجتماعی محقق کنم.',
+                interactive_title: 'محتوای تعاملی و آموزشی',
+                metaverse_app_title: 'کاوش در دنیای متاورس',
+                metaverse_app_desc: 'یک ابزار آموزشی تعاملی برای درک عمیق‌تر مفاهیم متاورس، از فناوری‌های زیربنایی تا کاربردها و چالش‌ها.',
+                metaverse_app_link: 'شروع به کاوش',
                 projects_title: 'پروژه‌های من: جایی که خلاقیت و فناوری به هم می‌رسند',
                 project1_title: 'OdysApe',
                 project1_role: 'بنیان‌گذار و طراح',
@@ -354,9 +578,9 @@
                 resume_summary_title: 'خلاصه حرفه‌ای',
                 resume_summary_text: 'من بیش از ۱۰ سال در فضای بلاکچین و فناوری‌های غیرمتمرکز فعال هستم و تجربه‌ی طراحی، آموزش و مشاوره در پروژه‌های NFT، متاورس و Web3 دارم. علاوه بر فعالیت‌های فنی، علاقه‌مند به پیوند دادن فرهنگ، هنر و عدالت اجتماعی با دنیای دیجیتال هستم.',
                 resume_experience_title: 'سوابق کاری و پروژه‌ها',
-                resume_experience_li1: 'بنیان‌گذار و طراح پروژه‌های NFT و Web3: OdysApe, Telegram Titans, Neuropad',
-                resume_experience_li2: 'مدرس و مشاور بلاکچین: برگزاری بیش از ۴۸ دوره آموزشی',
-                resume_experience_li3: 'توسعه‌دهنده مدل‌های کسب‌وکار دیجیتال: طراحی پلن مارکتینگ و استراتژی‌های رشد کاربر',
+                resume_experience_li1: '<b>بنیان‌گذار و طراح پروژه‌های NFT و Web3:</b> OdysApe, Telegram Titans, Neuropad',
+                resume_experience_li2: '<b>مدرس و مشاور بلاکچین:</b> برگزاری بیش از ۴۸ دوره آموزشی',
+                resume_experience_li3: '<b>توسعه‌دهنده مدل‌های کسب‌وکار دیجیتال:</b> طراحی پلن مارکتینگ و استراتژی‌های رشد کاربر',
                 resume_skills_title: 'مهارت‌ها',
                 resume_skills_li1: 'طراحی و مدیریت پروژه‌های NFT و متاورس',
                 resume_skills_li2: 'مشاوره در زمینه بلاکچین و Web3',
@@ -382,13 +606,10 @@
                 nav_contact: 'Contact',
                 hero_title: 'A Journey in the World of Web3: Technology for Justice',
                 hero_text: 'I am Soroosh Ziaei. In this path, we explore blockchain, NFT, and the metaverse not only as tools for innovation, but as a platform for justice and humanity.',
-                about_title: 'About Me',
-                about_p1: 'Hello! I am Soroosh Ziaei, a researcher and creator in the world of blockchain, NFT, and the metaverse. For over a decade, I have been pursuing my path in this space, where technology, creativity, and humanity intersect. Throughout these years, I have designed and experienced projects like bitcoiner ape, cryptoyland, and Telegram Titans. The goal of these projects was not just sales, but storytelling, value creation, and building a more just community in Web3. Even if not all of them achieved financial success, each was a valuable experience for me in learning, trial and error, and building the future. Additionally, I have always been interested in education and knowledge transfer. I have held dozens of courses on blockchain, NFT, and the metaverse, striving to introduce a new generation of users and creators to this world. But what makes me different is not just my technical expertise; I believe that technology should serve humanity and social justice. This perspective led me to psychological research, digital art, and projects that build the connection between culture and Web3. Today, I am here to share my experiences with you, and together, build projects that are not only innovative but also meaningful.',
-                about_p2: '✨ If you are interested in the world of NFT, the metaverse, and Web3, I would be happy to journey with you—whether through learning, building, or drawing inspiration from the future we create together.',
-                mission_title: 'My Mission Statement: Technology in Service of Humanity',
-                mission_p1: 'I, Soroosh Ziaei, have arrived at a clear mission from the heart of inequalities, conflicts, and human interactions: to create a structure for justice, not through power, but through participation, transparency, and technology. Throughout my life, I have encountered various segments of society: the marginalized addict, the tired worker, the factory owner striving to maintain the livelihood of others, powerful officials, the voiceless oppressed, and even those who have appeared as oppressors themselves. These encounters have led me to a deep understanding: justice is not a theory—it is an experience. And experience requires structure.',
-                mission_p2: 'In a world where power structures are built on centralization, corruption, and discrimination, only one tool can change the course: decentralized and collective intelligence-based technology.',
-                mission_p3: 'I have come to realize justice not in slogans, but in code, votes, and social structure.',
+                interactive_title: 'Interactive & Educational Content',
+                metaverse_app_title: 'Exploring the Metaverse',
+                metaverse_app_desc: 'An interactive educational tool to gain a deeper understanding of metaverse concepts, from underlying technologies to applications and challenges.',
+                metaverse_app_link: 'Start Exploring',
                 projects_title: 'My Projects: Where Creativity and Technology Meet',
                 project1_title: 'OdysApe',
                 project1_role: 'Founder & Designer',
@@ -453,13 +674,10 @@
                 nav_contact: 'اتصل بي',
                 hero_title: 'رحلة في عالم Web3: التكنولوجيا من أجل العدالة',
                 hero_text: 'أنا سروش ضيایی. في هذا المسار، نستكشف البلوكتشين، NFT، والميتافيرس ليس فقط كأدوات للابتكار، بل كمنصة للعدالة والإنسانية.',
-                about_title: 'عني',
-                about_p1: 'أهلاً! أنا سروش ضيایی، باحث ومبدع في عالم البلوكتشين، NFTs، والميتافيرس. لأكثر من عقد من الزمان، أسير في هذا الفضاء حيث تتقاطع التكنولوجيا والإبداع والإنسانية. خلال هذه السنوات، قمت بتصميم وتجربة مشاريع مثل bitcoiner ape و cryptoyland و Telegram Titans. لم يكن هدف هذه المشاريع مجرد المبيعات، بل كان يهدف إلى سرد القصص، وخلق القيمة، وبناء مجتمع أكثر عدلاً في Web3. وحتى لو لم تحقق جميعها نجاحًا ماليًا، فقد كانت كل منها تجربة قيمة بالنسبة لي في التعلم، والتجربة والخطأ، وبناء المستقبل. بالإضافة إلى ذلك، كنت دائمًا مهتمًا بالتعليم ونقل المعرفة. لقد قمت بإجراء العشرات من الدورات التدريبية حول البلوكتشين، NFTs، والميتافيرس، سعياً لتقديم جيل جديد من المستخدمين والمبدعين إلى هذا العالم. ولكن ما يميزني ليس فقط خبرتي الفنية؛ بل إيماني بأن التكنولوجيا يجب أن تخدم الإنسانية والعدالة الاجتماعية. قادتني هذه النظرة إلى البحث في علم النفس والفن الرقمي والمشاريع التي تبني العلاقة بين الثقافة و Web3. اليوم، أنا هنا لأشارككم تجاربي، ولنعمل معًا على بناء مشاريع ليست مبتكرة فحسب، بل ذات مغزى أيضًا.',
-                about_p2: '✨ إذا كنت مهتمًا بعالم NFT، والميتافيرس، و Web3، فسأكون سعيدًا بالانضمام إليك في هذه الرحلة - سواء من خلال التعلم، أو البناء، أو استلهام المستقبل الذي نخلقه معًا.',
-                mission_title: 'بيان رسالتي: التكنولوجيا في خدمة الإنسانية',
-                mission_p1: 'أنا، سروش ضيایی، وصلت إلى رسالة واضحة من قلب التفاوتات، والتناقضات، والتفاعلات الإنسانية: أن أخلق بنية للعدالة، ليس من خلال القوة، بل من خلال المشاركة، والشفافية، والتكنولوجيا. طوال حياتي، التقيت بشرائح مختلفة من المجتمع: المدمن المهمش، والعامل المتعب، وصاحب المصنع الذي يسعى للحفاظ على رزق الآخرين، والمسؤولون الأقوياء، والمظلومون الصامتون، وحتى أولئك الذين ظهروا كظالمين بأنفسهم. قادتني هذه اللقاءات إلى فهم عميق: العدالة ليست نظرية، بل هي تجربة. والتجربة تتطلب بنية.',
-                mission_p2: 'في عالم بنيت فيه هياكل السلطة على أساس المركزية، والفساد، والتمييز، توجد أداة واحدة فقط يمكنها تغيير المسار: التكنولوجيا اللامركزية والقائمة على الذكاء الجماعي.',
-                mission_p3: 'جئت لأحقق العدالة، ليس بالشعارات، بل بالكود، والأصوات، والهيكل الاجتماعي.',
+                interactive_title: 'محتوى تفاعلي وتعليمي',
+                metaverse_app_title: 'استكشاف الميتافيرس',
+                metaverse_app_desc: 'أداة تعليمية تفاعلية لاكتساب فهم أعمق لمفاهيم الميتافيرس، من التقنيات الأساسية إلى التطبيقات والتحديات.',
+                metaverse_app_link: 'ابدأ الاستكشاف',
                 projects_title: 'مشاريعي: حيث يلتقي الإبداع والتكنولوجيا',
                 project1_title: 'OdysApe',
                 project1_role: 'المؤسس والمصمم',
@@ -479,7 +697,7 @@
                 roadmap_phase2_li1: 'المعايير الأساسية للإيثيريوم: ERC-721، ERC-1155.',
                 roadmap_phase2_li2: 'المعايير الناشئة: ERC-404، xNFT (الرموز القابلة للتنفيذ)، iNFTs (الرموز الذكية).',
                 roadmap_phase3_title: '3. تطبيقات NFT (المرحلة الثالثة: فهم النظام البيئي)',
-                roadmap_phase3_li1: 'الفن والمقتنيات، ألعاب الفيديو (GameFi)، الميتافيرس، الموسيقى والسينما، التمويل اللامركزي (DeFi)، ترميز الأصول المادية، الهوية الرقمية والشهادات.',
+                roadmap_phase3_li1: 'الفن والمقتنيات، ألعاب الفيديو (GameFi)، الميتافيرس، الموسيقى والسينما، التمويل اللامركزی (DeFi)، ترمیز الأصول المادية، الهوية الرقمية والشهادات.',
                 roadmap_phase4_title: '4. أساسيات الميتافيرس (المرحلة الرابعة: توسيع النظرة)',
                 roadmap_phase4_li1: 'ما هو الميتافيرس؟، الميزات الأساسية للميتافيرس (الثبات، قابلية التشغيل البيني، الاقتصاد اللامركزي)، الركائز التكنولوجية، نماذج تحقيق الدخل.',
                 roadmap_phase5_title: '5. الدخول العملي إلى عالم NFT (المرحلة الخامسة: الخطوات العملية)',
@@ -512,7 +730,7 @@
                 resume_education_li2: 'طالب علم نفس (يركز على العلاقة بين الصحة العقلية، المجتمع، والتقنيات الجديدة)',
                 contact_title: 'اتصل بي',
                 contact_desc: 'سأكون سعيدًا بالتواصل معك وبناء مشاريع معًا.',
-                footer_text: '© 2024 سروش ضيایی. جميع الحقوق محفوظة.'
+                footer_text: '© 2024 سروش ضیایی. جميع الحقوق محفوظة.'
             }
         };
 
@@ -556,6 +774,287 @@
 
         // Set initial language on page load
         setLanguage('fa');
+        
+        // --- Scripts for Metaverse App (merged from previous immersive) ---
+
+        // Function to initialize charts
+        function initializeCharts() {
+            const appCtx = document.getElementById('applicationsChart').getContext('2d');
+            const applicationsChart = new Chart(appCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['فرصت‌ها', 'چالش‌ها'],
+                    datasets: [{
+                        label: 'میزان تأثیر',
+                        data: [], // Initial data is empty
+                        backgroundColor: ['#06B6D4', '#2F3C47'],
+                        borderColor: ['#06B6D4', '#2F3C47'],
+                        borderWidth: 1,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#E2E2E2' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#E2E2E2' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { rtl: true, textDirection: 'rtl' }
+                    }
+                }
+            });
+
+            const chCtx = document.getElementById('challengesChart').getContext('2d');
+            const challengesChart = new Chart(chCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['ریسک قانونی', 'ریسک امنیتی', 'تأثیر اجتماعی', 'پیچیدگی فنی', 'ریسک اقتصادی'],
+                    datasets: [{
+                        label: 'سطح چالش',
+                        data: [], // Initial data is empty
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        borderColor: '#06B6D4',
+                        pointBackgroundColor: '#06B6D4',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#06B6D4'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#2F3C47' },
+                            grid: { color: '#2F3C47' },
+                            pointLabels: {
+                                font: { size: 12, family: "'Vazirmatn', sans-serif" },
+                                color: '#E2E2E2'
+                            },
+                            ticks: {
+                                backdropColor: '#0A0A0A',
+                                color: '#E2E2E2'
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { rtl: true, textDirection: 'rtl' }
+                    }
+                }
+            });
+
+            return { applicationsChart, challengesChart };
+        }
+
+        const featuresData = [
+            {
+                icon: '⏳',
+                title: 'پایداری (Persistence)',
+                description: 'متاورس همیشه روشن است و حتی در غیاب شما به تکامل خود ادامه می‌دهد. رویدادها در آن دائمی هستند و بر تجربه کاربران آینده تأثیر می‌گذارند.'
+            },
+            {
+                icon: '🤝',
+                title: 'تعامل‌پذیری (Interoperability)',
+                description: 'امکان انتقال روان هویت، دارایی‌ها و داده‌ها بین پلتفرم‌های مختلف. آواتار و آیتم‌های شما در کل اکوسیستم متاورس قابل استفاده هستند.'
+            },
+            {
+                icon: '💸',
+                title: 'اقتصاد غیرمتمرکز',
+                description: 'مبتنی بر بلاک‌چین و NFT، که مالکیت واقعی دارایی‌های دیجیتال را به کاربران می‌دهد و امکان کسب درآمد واقعی را فراهم می‌کند.'
+            },
+            {
+                icon: '🧘',
+                title: 'حس حضور (Presence)',
+                description: 'ایجاد احساس واقعی حضور فیزیکی در محیط مجازی که کلید غوطه‌وری کامل است و تعاملات را طبیعی‌تر و معنادارتر می‌کند.'
+            }
+        ];
+
+        const featuresGrid = document.getElementById('features-grid');
+        featuresData.forEach(feature => {
+            const card = document.createElement('div');
+            card.className = 'feature-card bg-gray-800 p-6 rounded-lg border border-gray-700 cursor-pointer';
+            card.innerHTML = `
+                <div class="flex items-center text-right mb-4">
+                    <div class="text-3xl ml-4">${feature.icon}</div>
+                    <div>
+                        <h4 class="text-lg font-bold">${feature.title}</h4>
+                    </div>
+                </div>
+                <p class="description text-gray-400 text-sm hidden">${feature.description}</p>
+            `;
+            featuresGrid.appendChild(card);
+        });
+
+        featuresGrid.addEventListener('click', (e) => {
+            const card = e.target.closest('.feature-card');
+            if (card) {
+                const desc = card.querySelector('.description');
+                desc.classList.toggle('hidden');
+                card.classList.toggle('bg-[#1a1a1a]');
+            }
+        });
+        
+        const techLayersData = {
+            infrastructure: {
+                title: 'لایه زیرساخت 🌐',
+                content: 'این لایه پایه و اساس متاورس است. شامل شبکه‌های پرسرعت <strong>5G/6G</strong> برای تأمین پهنای باند بالا و تأخیر پایین، و فناوری <strong>پردازش لبه (Edge Computing)</strong> برای به حداقل رساندن تأخیر و ایجاد تجربه‌ای روان و بی‌درنگ می‌شود. بدون این زیرساخت، یک متاورس مقیاس‌پذیر و غوطه‌ور ممکن نیست.'
+            },
+            intelligence: {
+                title: 'لایه هوش و داده 🧠',
+                content: '<strong>هوش مصنوعی (AI)</strong> در این لایه نقش کلیدی دارد. AI با تحلیل داده‌های کاربران، محیط‌ها را شخصی‌سازی کرده و شخصیت‌های غیربازیکن (NPC) واقع‌گرایانه خلق می‌کند. <strong>اینترنت اشیا (IoT)</strong> نیز با اتصال حسگرهای دنیای واقعی به متاورس، پلی بین دو جهان ایجاد کرده و تجربه‌های ترکیبی را ممکن می‌سازد.'
+            },
+            economy: {
+                title: 'لایه اقتصادی 💰',
+                content: 'این لایه بر پایه <strong>بلاک‌چین</strong>، <strong>توکن‌های غیرقابل معاوضه (NFT)</strong> و <strong>ارزهای دیجیتال</strong> بنا شده است. بلاک‌چین مالکیت امن و شفاف دارایی‌های دیجیتال را تضمین می‌کند و NFTها به کاربران امکان می‌دهند مالکیت واقعی آیتم‌های منحصر به فرد مجازی را در اختیار داشته باشند.'
+            }
+        };
+
+        const techButtonsContainer = document.getElementById('tech-layers-buttons');
+        const techContentContainer = document.getElementById('tech-layer-content');
+        
+        techButtonsContainer.addEventListener('click', (e) => {
+            const button = e.target.closest('.tech-layer');
+            if (button) {
+                const layerId = button.dataset.layer;
+                
+                document.querySelectorAll('.tech-layer').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                techContentContainer.innerHTML = `
+                    <h4 class="text-xl font-bold mb-3">${techLayersData[layerId].title}</h4>
+                    <p class="text-gray-400 leading-relaxed">${techLayersData[layerId].content}</p>
+                `;
+            }
+        });
+        
+        if (techButtonsContainer.querySelector('.tech-layer')) {
+            techButtonsContainer.querySelector('.tech-layer').click();
+        }
+
+
+        const applicationsData = {
+            education: {
+                title: 'آموزش و یادگیری',
+                description: 'متاورس می‌تواند محیط‌های آموزشی غوطه‌ور و جذابی ایجاد کند که فراتر از کلاس‌های آنلاین سنتی هستند. شبیه‌سازی‌های آموزشی، به دانش‌آموزان اجازه می‌دهند تا در محیطی امن و بدون ریسک، آزمایش‌های خطرناک انجام داده یا جراحی‌های پیچیده را تمرین کنند.',
+                values: [85, 40]
+            },
+            healthcare: {
+                title: 'پزشکی و سلامت',
+                description: 'از آموزش دقیق جراحی با مدل‌های سه‌بعدی گرفته تا برنامه‌ریزی قبل از عمل و توانبخشی مجازی. متاورس می‌تواند برای مراقبت‌های از راه دور و حتی درمان‌های سلامت روان به کار گرفته شود.',
+                values: [90, 60]
+            },
+            business: {
+                title: 'تجارت و کسب‌وکار',
+                description: 'شرکت‌ها می‌توانند جلسات کاری را در فضاهای مجازی برگزار کنند و برندها با ایجاد فروشگاه‌های مجازی، تجربه‌های تعاملی و شخصی‌سازی‌شده برای مشتریان خود فراهم کنند.',
+                values: [80, 70]
+            },
+            social: {
+                title: 'تعاملات اجتماعی',
+                description: 'متاورس با شکستن محدودیت‌های جغرافیایی، امکان ایجاد اجتماعات جهانی و برقراری ارتباطات عمیق‌تر را فراهم می‌کند، اما خطر اعتیاد و قطبی‌سازی اجتماعی را نیز به همراه دارد.',
+                values: [75, 75]
+            }
+        };
+
+        const { applicationsChart, challengesChart } = initializeCharts();
+
+        const appFilters = document.getElementById('app-filters');
+        const appTitle = document.getElementById('app-title');
+        const appDescription = document.getElementById('app-description');
+        const initialAppId = 'education';
+        
+        function updateApplicationsChart(appId) {
+            appTitle.textContent = applicationsData[appId].title;
+            appDescription.textContent = applicationsData[appId].description;
+            applicationsChart.data.datasets[0].data = applicationsData[appId].values;
+            applicationsChart.update();
+        }
+
+        appFilters.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const appId = e.target.dataset.app;
+                
+                document.querySelectorAll('#app-filters button').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                updateApplicationsChart(appId);
+            }
+        });
+        
+        document.querySelector(`#app-filters button[data-app="${initialAppId}"]`).classList.add('active');
+        updateApplicationsChart(initialAppId);
+
+
+        const challengesData = {
+            legal: {
+                title: 'مسائل حقوقی و حاکمیتی',
+                description: 'ماهیت غیرمتمرکز و جهانی متاورس، مناطق خاکستری جدیدی در قوانین ایجاد می‌کند. چالش‌هایی مانند تعیین مالکیت قانونی دارایی‌های مجازی، پیچیدگی هویت‌های دیجیتال و دشواری در اجرای قوانین، نیازمند چارچوب‌های نظارتی جدید و همکاری بین‌المللی است.',
+                values: [85, 70, 60, 75, 50]
+            },
+            security: {
+                title: 'امنیت و حریم خصوصی',
+                description: 'جمع‌آوری حجم عظیمی از داده‌های بیومتریک و رفتاری کاربران، خطر سوءاستفاده تجاری و هک را افزایش می‌دهد. حفاظت از هویت دیجیتال و داده‌های شخصی یکی از بزرگترین نگرانی‌هاست.',
+                values: [70, 90, 80, 65, 85]
+            },
+            social: {
+                title: 'پیامدهای اجتماعی و روانی',
+                description: 'خطر اعتیاد به دنیای مجازی، "غم و اندوه پس از VR"، و تشدید قطبی‌سازی اجتماعی از طریق "حباب‌های فیلتر" از جمله پیامدهای منفی بالقوه هستند که سلامت روان و انسجام اجتماعی را تهدید می‌کنند.',
+                values: [60, 85, 90, 80, 70]
+            }
+        };
+        
+        const challengeSelector = document.getElementById('challenge-selector');
+        const challengeTitle = document.getElementById('challenge-title');
+        const challengeDescription = document.getElementById('challenge-description');
+        const initialChallengeId = 'legal';
+        
+        function updateChallengesChart(challengeId) {
+            challengeTitle.textContent = challengesData[challengeId].title;
+            challengeDescription.textContent = challengesData[challengeId].description;
+            challengesChart.data.datasets[0].data = challengesData[challengeId].values;
+            challengesChart.update();
+        }
+
+        challengeSelector.addEventListener('change', (e) => {
+            const challengeId = e.target.value;
+            updateChallengesChart(challengeId);
+        });
+
+        updateChallengesChart(initialChallengeId);
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section[id]');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 80) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
